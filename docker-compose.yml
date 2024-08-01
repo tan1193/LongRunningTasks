@@ -1,0 +1,22 @@
+version: '3.4'
+
+services:
+  longrunning.api:
+    image: ${DOCKER_REGISTRY-}longrunningapi
+    build:
+      context: .
+      dockerfile: LongRunning.Api/Dockerfile
+    ports:
+      - 5001:8081
+
+  database:
+    image: postgres:latest
+    container_name: database
+    environment:
+      - POSTGRES_DB=longrunning
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - ./.containers/db:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
